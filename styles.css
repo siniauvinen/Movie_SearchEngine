@@ -1,0 +1,134 @@
+html {
+    height: 100%;
+    overflow-x: hidden;  
+    font-family: 'Courier New', Courier, monospace; 
+}
+body {
+    height: 100%;
+    overflow-x: hidden;  
+    font-family: 'Courier New', Courier, monospace; 
+    background-image: url('../images/movietheater.jpg');
+    background-size: cover;
+}
+header {
+    background-color: rgb(241, 208, 20);
+    color: black;
+    padding: 30px;
+    font-size: 50px;
+    text-align: center;
+}
+a:hover {
+    text-decoration: none;
+}
+h5 {
+    color:rgb(126, 54, 2);
+}
+
+#card-container {
+    max-height: 100%;
+}
+#page-container {
+    min-height: 100%;
+    margin-top: -100px;
+    padding-top: 100px;
+    margin-bottom: -60px;
+    padding-bottom: 60px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+footer {
+    background-color: rgb(241, 208, 20);
+    margin-top: 15px;
+    padding: 15px;
+    width: 100%;
+    text-align: center;
+}
+.card-body {
+    border: none;
+}
+.card {
+    padding: 0px;
+    border-radius: 0;
+    margin-top: -1;
+}
+#selectTheater {
+    padding: 10px;
+    height: 45px;
+}
+#selectDate {
+    padding: 10px;
+    height: 45px;
+}
+#movieSearch {
+    padding: 10px;  
+    height: 45px;
+}
+#searchBtn {
+    padding: 10px 25px 8px 10px;
+    height: 45px;
+    background-color: white;
+    border-width: thin;
+}
+#searchBtn:hover {
+    background-color: rgb(241, 221, 104);
+    transition: 0.3s;
+    cursor: pointer;
+}
+.searchRow {
+    margin-bottom: 15px;
+    margin-top: 15px;
+    padding-right: 30px;
+    padding-left: 30px;
+}
+.d-flex {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.error {
+    border-color: red;
+    border-width: 2px;
+}
+.img {
+    max-height: 150px;
+    max-width: 100px;
+    margin-right: auto;
+    margin-left: 30px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.imgTonttu {
+    max-height: 150px;
+    max-width: 100px;
+    margin-right: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.noShows {
+    padding: 60px;
+    border-style: none;
+    font-size: 20px;
+    text-align: center;
+}
+
+
+
+
+
+
+
+
+
+
+li {
+    list-style-type: none;
+    width: 50%;
+    border: 1px solid #ddd; 
+    margin-top: -1px; 
+    background-color: #b6caff; 
+    padding: 12px; 
+    display: block; 
+}
+li:hover {
+    cursor: pointer;
+    background-color: beige;
+}
