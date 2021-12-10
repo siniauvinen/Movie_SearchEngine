@@ -62,7 +62,7 @@ function script() { // Suorittaa funktion DOM:in latauduttua
             for (i = 0; i < ongoingMovies.length; i++) { // Käy läpi kaikki xml dokumentissa olevat elokuvat
                 try {
                     if (ongoingMovies[i].childNodes[0].nodeValue === "Traileri" || ongoingMovies[i].childNodes[0].nodeValue === "") {
-                        continue
+                        continue // Jos titlen arvo on traileri tai tyhjä, jatketaan suoritusta ottamatta näitä 
                     }
                     var ongoingMoviesOption = document.createElement("option"); // Luo uuden option elementin ja asettaa sen muuttujaan
                     ongoingMoviesOption.innerText = ongoingMovies[i].childNodes[0].nodeValue; // Lisää muuttujaan elokuvan nimen
