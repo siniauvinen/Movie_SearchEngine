@@ -29,7 +29,8 @@ h5 {
 }
 #page-container {
     min-height: 100%;
-    
+    margin-top: -145px;
+    padding-top: 145px;
     margin-bottom: -60px;
     padding-bottom: 60px;
     padding-left: 20px;
