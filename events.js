@@ -2,14 +2,14 @@ function script() { // Suorittaa funktion DOM:in latauduttua
 
     // Asettaa paikkakunnat ja niiden valuet dropdown menuun "valitse paikkakunta"
 
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.open("GET", "https://www.finnkino.fi/xml/TheatreAreas/", true);
-    xmlhttp.send();
-    xmlhttp.onreadystatechange = function () {
-        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-            var theatreAreas = xmlhttp.responseXML;
-            var theatres = theatreAreas.getElementsByTagName("Name");
-            var ID = theatreAreas.getElementsByTagName("ID");
+    var xmlhttp = new XMLHttpRequest(); // Luo uuden xmlhttprequestin
+    xmlhttp.open("GET", "https://www.finnkino.fi/xml/TheatreAreas/", true); // Hakee datan annetusta xml tiedostosta
+    xmlhttp.send(); // Lähettää AJAX pyynnön
+    xmlhttp.onreadystatechange = function () { // Lisää eventlistenerin AJAX kutsulle
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) { // Suoritetaan jos AJAX pyyntö on valmis ja status OK
+            var theatreAreas = xmlhttp.responseXML; // Asettaa xml vastauksen muuttujaan
+            var theatres = theatreAreas.getElementsByTagName("Name"); // Asettaa xml dokumentin "Name" tagin muuttujaan
+            var ID = theatreAreas.getElementsByTagName("ID"); // Asettaa xml dokumentin "ID" tagin muuttujaan
 
             var setTheaters = document.getElementById("selectTheater"); // Asettaa DOM:n "Valitse elokuva/teatteri" dropdownin muuttujaan
             for (i = 0; i < theatres.length; i++) { // Käy läpi kaikki xml dokumentissa olevat elokuvat
@@ -40,8 +40,7 @@ function script() { // Suorittaa funktion DOM:in latauduttua
             setDates[i].value = date.getDate() + "." + (date.getMonth() + 1) + "." + date.getFullYear();
         }
 
-
-        if (i === 0) {
+        if (i === 0) { 
             setDates[i].innerHTML = "Tänään, " + setDates[i].value; // Jos valuen indexi = 0, lisätään teksiin "tänään" + pvm
         } else if (i === 1) {
             setDates[i].innerHTML = "Huomenna, " + setDates[i].value; // Jos valuen indexi = 1, lisätään teksiin "huomenna" + pvm
@@ -51,13 +50,13 @@ function script() { // Suorittaa funktion DOM:in latauduttua
     }
 
     // Luo elokuvahakua
-    var xmlhttp1 = new XMLHttpRequest();
-    xmlhttp1.open("GET", "https://www.finnkino.fi/xml/Events/", true);
-    xmlhttp1.send();
-    xmlhttp1.onreadystatechange = function () {
-        if (xmlhttp1.readyState == 4 && xmlhttp1.status == 200) {
-            var events = xmlhttp1.responseXML;
-            var ongoingMovies = events.getElementsByTagName("Title");
+    var xmlhttp1 = new XMLHttpRequest(); // Luo uuden xmlhttprequestin
+    xmlhttp1.open("GET", "https://www.finnkino.fi/xml/Events/", true); // Hakee datan annetusta xml tiedostosta
+    xmlhttp1.send(); // Lähettää AJAX pyynnön
+    xmlhttp1.onreadystatechange = function () { // Lisää eventlistenerin AJAX kutsulle
+        if (xmlhttp1.readyState == 4 && xmlhttp1.status == 200) { // Suoritetaan jos AJAX pyyntö on valmis ja status OK
+            var events = xmlhttp1.responseXML; // Asettaa xml vastauksen muuttujaan
+            var ongoingMovies = events.getElementsByTagName("Title"); // Asettaa muuttujaan xml dokumentin "Title" nimiset tagit
             var setOngoingMovies = document.getElementById("moviesOption"); // Asettaa DOM:n "Hae elokuvaa nimellä" hakukentän muuttujaan
             for (i = 0; i < ongoingMovies.length; i++) { // Käy läpi kaikki xml dokumentissa olevat elokuvat
                 try {
@@ -75,11 +74,10 @@ function script() { // Suorittaa funktion DOM:in latauduttua
     }
 }
 
-
 // Suoritetaan klikatessa "searchBtn":a
 
-document.getElementById("searchBtn").addEventListener("click", searchMovies);
-function searchMovies() {
+document.getElementById("searchBtn").addEventListener("click", searchMovies); // Lisätään eventlistener etsi näppäimelle
+function searchMovies() { // Suoritetaan funktio
 
     document.getElementById("card-container").innerHTML = ""; // Tyhjentää haetut elokuvat DOM:sta
     var movieArea = document.getElementById("selectTheater"); // Asettaa muuttujaan "valitse paikkakunta" dropdownin 
@@ -88,42 +86,41 @@ function searchMovies() {
 
     if (movieArea.value === "1029") { // Jos paikkakuntaa ei ole valittu...
         movieArea.classList.add("error"); // ...lisätään "valitse paikkakunta" dropdown menulle error luokka
-    } else {
-
-        document.body.style.backgroundImage='none';
+    } else { // Suoritetaan näytöshaku
+        document.body.style.backgroundImage='none'; // Piilotetaan bodyn taustakuva
         movieArea.classList.remove("error"); //... poistetaan error luokka "valitse paikkakunta" dropdown menusta 
 
         const apiUrl = new URL("https://www.finnkino.fi/xml/Schedule/?area=&dt=") // Asettaa xml url muuttujaan
         apiUrl.searchParams.set("area", movieArea.value); // Asettaa url:n parametriin "area" valitun paikkakunnan arvo
         apiUrl.searchParams.set("dt", movieDate.value); // Asettaa url:n parametriin "dt" valitun päivämäärän arvo
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.open("GET", apiUrl, true);
-        xmlhttp.send();
+        var xmlhttp = new XMLHttpRequest(); // Luo uuden xmlhttprequestin
+        xmlhttp.open("GET", apiUrl, true); // Hakee datan annetusta xml tiedostosta
+        xmlhttp.send(); // Lähettää AJAX pyynnön
 
-        xmlhttp.onreadystatechange = function () {
-            if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
-                var moviesInTheatre = xmlhttp.responseXML;
+        xmlhttp.onreadystatechange = function () { // Lisää eventlistenerin AJAX kutsulle
+            if (xmlhttp.readyState === 4 && xmlhttp.status === 200) { // Suoritetaan jos AJAX pyyntö on valmis ja status OK
+                var moviesInTheatre = xmlhttp.responseXML; // Asettaa xml vastauksen muuttujaan
 
                 var movieTitles = moviesInTheatre.getElementsByTagName("Title"); // Asettaa muuttujaan xml dokumentin "title" nimiset tagit
-                var movieTheatres = moviesInTheatre.getElementsByTagName("Theatre");
+                var movieTheatres = moviesInTheatre.getElementsByTagName("Theatre"); // Asettaa muuttujaan xml dokumentin "Theatre" nimiset tagit
                 var movieStarts = moviesInTheatre.getElementsByTagName("dttmShowStart"); // Asettaa muuttujaan xml dokumentin "dttmShowStart" nimiset tagit
-                var movieImages = moviesInTheatre.getElementsByTagName("EventMediumImagePortrait");
+                var movieImages = moviesInTheatre.getElementsByTagName("EventMediumImagePortrait"); // Asettaa muuttujaan xml dokumentin medium kokoiset kuvat
 
 
-                if (movieSearchTitle.value === "") { // Suoritetaan, jos elokuvahaku on tyhjä
+                if (movieSearchTitle.value === "") { // Suoritetaan, jos näytöshaun tekstikenttä on tyhjä
                     for (i = 0; i < movieTitles.length; i++) { // Käy läpi kaikki xml dokumentissa olleet elokuvat
 
                         var cardContainer = document.getElementById("card-container"); // Asettaa card-contrainerin muuttujaan
-                        var row = document.createElement("div");
-                        row.className = "row";
+                        var row = document.createElement("div"); // Luo uuden div elementin...
+                        row.className = "row"; //...ja antaa sille luokan
 
-                        var imgdiv = document.createElement("div");
-                        imgdiv.className = "col-xs-2";
+                        var imgdiv = document.createElement("div"); // Luo uuden div elementin...
+                        imgdiv.className = "col-xs-2"; //...ja antaa sille luokan
 
-                        var images = document.createElement("img");
-                        images.src = movieImages[i].childNodes[0].nodeValue;
-                        images.alt = "Elokuvan mainosjuliste";
-                        images.className = "img";
+                        var images = document.createElement("img"); // Luo uuden kuva elementin
+                        images.src = movieImages[i].childNodes[0].nodeValue; // Asettaa elemnttiin kuvan xml tiedostosta
+                        images.alt = "Elokuvan mainosjuliste"; // Antaa kuvalle alt tekstin
+                        images.className = "img"; // Antaa kuvalle luokan
 
                         var card = document.createElement("div"); // Luo uuden divin...
                         card.className = "card shadow"; // ...ja lisää sille luokan card
@@ -141,33 +138,31 @@ function searchMovies() {
                             + dateAndTime.substring(11, 16); // Poimii muuttujasta kellonaikatiedot jotka lisää divin tekstiksi
                         movieInfo.className = "card-movieinfo"; // Antaa diville luokan card-movieinfo
 
-
-                        imgdiv.appendChild(images);
-                        row.appendChild(imgdiv);
-                        cardBody.appendChild(title); // Lisää elokuvan nimen cardBodyyn
-                        //  cardBody.appendChild(teatteri);
-                        cardBody.appendChild(movieInfo); // Lisää elokuvan näytösajan cardBodyyn
-                        row.appendChild(cardBody);
-                        card.appendChild(row); // Lisää cardBodyn cardiin
+                        imgdiv.appendChild(images); // Liittää kuvan imgdiviin
+                        row.appendChild(imgdiv); // Liittää imgdivin riviin
+                        cardBody.appendChild(title); // Liittää elokuvan nimen cardBodyyn
+                        cardBody.appendChild(movieInfo); // Liittää elokuvan näytösajan cardBodyyn
+                        row.appendChild(cardBody); //Liittää cardbodyn riviin
+                        card.appendChild(row); // Liittää cardBodyn cardiin
                         cardContainer.appendChild(card); // Vie cardin DOM:n cardContaineriin
 
                     }
                 } else {  // Tekee muuten saman kuin yllä, mutta ottaa huomioon elokuvahakukentän arvon
-                    var movie = movieSearchTitle.value;
+                    var movie = movieSearchTitle.value; 
                     for (i = 0; i < movieTitles.length; i++) { // Käy läpi kaikki xml dokumentissa olleet elokuvat
 
                         if (movieTitles[i].childNodes[0].nodeValue.toUpperCase().includes(movie.toUpperCase())) {
                             var cardContainer = document.getElementById("card-container"); // Asettaa card-contrainerin muuttujaan
-                            var row = document.createElement("div");
-                            row.className = "row";
+                            var row = document.createElement("div"); // Luo uuden divin...
+                            row.className = "row"; //...ja antaa sille luokan
 
-                            var imgdiv = document.createElement("div");
-                            imgdiv.className = "col-xs-2";
+                            var imgdiv = document.createElement("div"); // Luo uuden divin...
+                            imgdiv.className = "col-xs-2"; //...ja antaa sille luokan
 
-                            var images = document.createElement("img");
-                            images.src = movieImages[i].childNodes[0].nodeValue;
-                            images.alt = "Elokuvan mainosjuliste";
-                            images.className = "img";
+                            var images = document.createElement("img"); // Luo kuvaelementin
+                            images.src = movieImages[i].childNodes[0].nodeValue; // Asettaa elementtiin kuvan xml tiedostosta
+                            images.alt = "Elokuvan mainosjuliste"; // Antaa kuvalle alt tekstin
+                            images.className = "img"; // Lisää kuvalle luokan
 
                             var card = document.createElement("div"); // Luo uuden divin...
                             card.className = "card shadow"; // ...ja lisää sille luokan card
@@ -186,36 +181,34 @@ function searchMovies() {
                             movieInfo.className = "card-movieinfo"; // Antaa diville luokan card-movieinfo
 
 
-                            imgdiv.appendChild(images);
-                            row.appendChild(imgdiv);
-                            cardBody.appendChild(title); // Lisää elokuvan nimen cardBodyyn
-                            //  cardBody.appendChild(teatteri);
-                            cardBody.appendChild(movieInfo); // Lisää elokuvan näytösajan cardBodyyn
-                            row.appendChild(cardBody);
-                            card.appendChild(row); // Lisää cardBodyn cardiin
+                            imgdiv.appendChild(images); // Liittää kuvan imgdiviin
+                            row.appendChild(imgdiv); // Liittää imgdivin riviin
+                            cardBody.appendChild(title); // Liittää elokuvan nimen cardBodyyn
+                            cardBody.appendChild(movieInfo); // Liittää elokuvan näytösajan cardBodyyn
+                            row.appendChild(cardBody); //Liittää cardbodyn riviin
+                            card.appendChild(row); // Liittää cardBodyn cardiin
                             cardContainer.appendChild(card); // Vie cardin DOM:n cardContaineriin
-
                         }
                     }
                 }
 
-                if (document.getElementById("card-container").childNodes.length === 0) {
+                if (document.getElementById("card-container").childNodes.length === 0) { // Suoritetaan jos elokuvahaku ei anna tuloksia
                     var cardContainer = document.getElementById("card-container"); // Asettaa card-contrainerin muuttujaan
-                    var row = document.createElement("div");
-                    row.className = "row";
+                    var row = document.createElement("div");  // Luo div elementin...
+                    row.className = "row"; // ...ja antaa sille luokan row
 
                     var cardBody = document.createElement("div"); // Luo uuden divin...
                     cardBody.className = "card-body noShows"; // ...ja antaa sille luokan card-body
-                    cardBody.innerText = "Sori tonttu, ei näytöksiä.";
+                    cardBody.innerText = "Sori tonttu, ei näytöksiä."; // Lisää card-bodyyn teksin
 
-                    var images = document.createElement("img");
-                    images.src = "../images/tonttu.jpg";
-                    images.alt = "Tonttu";
-                    images.className = "imgTonttu";
+                    var images = document.createElement("img"); // Luo uuden kuva elementin
+                    images.src = "../images/tonttu.jpg"; // Kuvan lähde
+                    images.alt = "Tonttu"; // Kuval alt teksti
+                    images.className = "imgTonttu"; // Lisää kuvalle luokan
 
-                    cardBody.appendChild(images);
-                    row.appendChild(cardBody);
-                    cardContainer.appendChild(row); // Vie cardin DOM:n cardContaineriin
+                    cardBody.appendChild(images); // Liittää kuvan card-bodyyn
+                    row.appendChild(cardBody); // Liittää card-bodyn riviin
+                    cardContainer.appendChild(row); // Liittää rivin DOM:n cardContaineriin
                 }
             }
         }
@@ -223,7 +216,7 @@ function searchMovies() {
 }
 
 document.getElementById("movieSearch").addEventListener("keyup", enterClick); // elokuvahakuun eventlistener, kun näppäin nousee
-function enterClick(e) {
+function enterClick(e) { // Suorittaa funktion
     if (e.keyCode === 13) { // Jos näppäin on enter näppäin...
         searchMovies(); // ...suoritetaan elokuvahaku
     }
