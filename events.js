@@ -222,36 +222,9 @@ function searchMovies() {
     }
 }
 
-document.getElementById("movieSearch").addEventListener("keyup", enterClick);
+document.getElementById("movieSearch").addEventListener("keyup", enterClick); // elokuvahakuun eventlistener, kun näppäin nousee
 function enterClick(e) {
-    if (e.keyCode === 13) {
-        searchMovies();
+    if (e.keyCode === 13) { // Jos näppäin on enter näppäin...
+        searchMovies(); // ...suoritetaan elokuvahaku
     }
 }
-
-
-
-/*var cardContainer = document.getElementById("card-container"); // Asettaa card-contrainerin muuttujaan
-var row = document.createElement("div");
-row.className = "row";
-
-var card = document.createElement("div"); // Luo uuden divin...
-card.className = "card noShows"; // ...ja lisää sille luokan card
-
-var cardBody = document.createElement("div"); // Luo uuden divin...
-cardBody.className = "card-body col-xs-10"; // ...ja antaa sille luokan card-body
-cardBody.innerText = "Sori tonttu, ei näytöksiä.";
-
-var imgdiv = document.createElement("div");
-imgdiv.className = "col-xs-2";
-
-var images = document.createElement("img");
-images.src = "../images/tonttu.jpg"
-images.alt = "Tonttu";
-images.className = "imgTonttu";
-
-row.appendChild(cardBody);
-imgdiv.appendChild(images);
-row.appendChild(imgdiv);
-card.appendChild(row);
-cardContainer.appendChild(card); // Vie cardin DOM:n cardContaineriin*/

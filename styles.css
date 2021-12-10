@@ -5,6 +5,7 @@ html {
 }
 body {
     height: 100%;
+    min-width: 320px;
     overflow-x: hidden;  
     font-family: 'Courier New', Courier, monospace; 
     background-image: url('../images/movietheater.jpg');
@@ -28,32 +29,6 @@ header {
         font-size: 25px;
     }
 }
-
-                      /*  @media only screen and (max-width: 800px) {
-                            .actualquote {
-                            font-size: 70%;
-                            }
-                        }
-                        #bg-img{
-                            background-image: url(../photos/untitled.png);
-                            background-position: 55% 90%;
-                            background-repeat: no-repeat;
-                            background-size: cover;
-                            height: 100%;
-                        }
-                        @media only screen and (max-width: 1080px) {
-                            #bg-img {
-                                background-position: 68% 90%;
-                            }
-                        }
-                        @media only screen and (max-width: 800px) {
-                            .quote {
-                                padding-top: 20%;
-                                
-                            }
-                        } */
-
-
 a:hover {
     text-decoration: none;
 }
