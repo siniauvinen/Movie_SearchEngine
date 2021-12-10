@@ -13,10 +13,42 @@ body {
 header {
     background-color: rgb(241, 208, 20);
     color: black;
-    padding: 30px;
+    height: 140px;
+    line-height: 140px;
     font-size: 50px;
     text-align: center;
 }
+@media only screen and (max-width: 620px) {
+    header {
+        font-size: 30px;
+    }
+}
+
+                      /*  @media only screen and (max-width: 800px) {
+                            .actualquote {
+                            font-size: 70%;
+                            }
+                        }
+                        #bg-img{
+                            background-image: url(../photos/untitled.png);
+                            background-position: 55% 90%;
+                            background-repeat: no-repeat;
+                            background-size: cover;
+                            height: 100%;
+                        }
+                        @media only screen and (max-width: 1080px) {
+                            #bg-img {
+                                background-position: 68% 90%;
+                            }
+                        }
+                        @media only screen and (max-width: 800px) {
+                            .quote {
+                                padding-top: 20%;
+                                
+                            }
+                        } */
+
+
 a:hover {
     text-decoration: none;
 }
@@ -29,8 +61,8 @@ h5 {
 }
 #page-container {
     min-height: 100%;
-    margin-top: -150px;
-    padding-top: 150px;
+    margin-top: -140px;
+    padding-top: 140px;
     margin-bottom: -60px;
     padding-bottom: 60px;
     padding-left: 20px;
@@ -39,8 +71,8 @@ h5 {
 footer {
     background-color: rgb(241, 208, 20);
     margin-top: 15px;
-    padding: 15px;
     height: 60px;
+    line-height: 60px;
     width: 100%;
     text-align: center;
 }
