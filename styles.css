@@ -122,6 +122,24 @@ footer {
     font-size: 20px;
     text-align: center;
 }
+.varaa {
+    padding: 10px 15px 10px 15px;
+    max-height: 40px;
+    text-align: center;
+    color: black;
+    background-color: rgb(223, 223, 223);
+}
+.varaa:hover {
+    cursor: pointer;
+    color: black;
+    background-color:rgb(241, 221, 104);
+    transition: 0.3s;
+}
+.varaa[target="_blank"]:after {
+    content: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAQElEQVR42qXKwQkAIAxDUUdxtO6/RBQkQZvSi8I/pL4BoGw/XPkh4XigPmsUgh0626AjRsgxHTkUThsG2T/sIlzdTsp52kSS1wAAAABJRU5ErkJggg==);
+  margin: 0 0 0 15px;
+}
+  
 
 
 

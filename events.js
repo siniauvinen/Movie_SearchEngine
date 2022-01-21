@@ -21,7 +21,6 @@ function script() { // Suorittaa funktion DOM:in latauduttua
         }
     }
 
-
     // Asettaa päivämäärät ja niiden valuet dropdown menuun "valitse päivämäärä"
 
     var setDates = Array.from(document.getElementById("selectDate").options); // Asettaa muuttujaan Dropdown menun optiot
@@ -40,7 +39,7 @@ function script() { // Suorittaa funktion DOM:in latauduttua
             setDates[i].value = date.getDate() + "." + (date.getMonth() + 1) + "." + date.getFullYear();
         }
 
-        if (i === 0) { 
+        if (i === 0) {
             setDates[i].innerHTML = "Tänään, " + setDates[i].value; // Jos valuen indexi = 0, lisätään teksiin "tänään" + pvm
         } else if (i === 1) {
             setDates[i].innerHTML = "Huomenna, " + setDates[i].value; // Jos valuen indexi = 1, lisätään teksiin "huomenna" + pvm
@@ -87,7 +86,7 @@ function searchMovies() { // Suoritetaan funktio
     if (movieArea.value === "1029") { // Jos paikkakuntaa ei ole valittu...
         movieArea.classList.add("error"); // ...lisätään "valitse paikkakunta" dropdown menulle error luokka
     } else { // Suoritetaan näytöshaku
-        document.body.style.backgroundImage='none'; // Piilotetaan bodyn taustakuva
+        document.body.style.backgroundImage = 'none'; // Piilotetaan bodyn taustakuva
         movieArea.classList.remove("error"); //... poistetaan error luokka "valitse paikkakunta" dropdown menusta 
 
         const apiUrl = new URL("https://www.finnkino.fi/xml/Schedule/?area=&dt=") // Asettaa xml url muuttujaan
@@ -104,90 +103,19 @@ function searchMovies() { // Suoritetaan funktio
                 var movieTitles = moviesInTheatre.getElementsByTagName("Title"); // Asettaa muuttujaan xml dokumentin "title" nimiset tagit
                 var movieTheatres = moviesInTheatre.getElementsByTagName("Theatre"); // Asettaa muuttujaan xml dokumentin "Theatre" nimiset tagit
                 var movieStarts = moviesInTheatre.getElementsByTagName("dttmShowStart"); // Asettaa muuttujaan xml dokumentin "dttmShowStart" nimiset tagit
+                var eventID = moviesInTheatre.getElementsByTagName("EventID"); // Asettaa muuttujaan xml dokumentin "EventID" tagit
                 var movieImages = moviesInTheatre.getElementsByTagName("EventMediumImagePortrait"); // Asettaa muuttujaan xml dokumentin medium kokoiset kuvat
 
 
                 if (movieSearchTitle.value === "") { // Suoritetaan, jos näytöshaun tekstikenttä on tyhjä
                     for (i = 0; i < movieTitles.length; i++) { // Käy läpi kaikki xml dokumentissa olleet elokuvat
-
-                        var cardContainer = document.getElementById("card-container"); // Asettaa card-contrainerin muuttujaan
-                        var row = document.createElement("div"); // Luo uuden div elementin...
-                        row.className = "row"; //...ja antaa sille luokan
-
-                        var imgdiv = document.createElement("div"); // Luo uuden div elementin...
-                        imgdiv.className = "col-xs-2"; //...ja antaa sille luokan
-
-                        var images = document.createElement("img"); // Luo uuden kuva elementin
-                        images.src = movieImages[i].childNodes[0].nodeValue; // Asettaa elemnttiin kuvan xml tiedostosta
-                        images.alt = "Elokuvan mainosjuliste"; // Antaa kuvalle alt tekstin
-                        images.className = "img"; // Antaa kuvalle luokan
-
-                        var card = document.createElement("div"); // Luo uuden divin...
-                        card.className = "card shadow"; // ...ja lisää sille luokan card
-
-                        var cardBody = document.createElement("div"); // Luo uuden divin...
-                        cardBody.className = "card-body col-xs-10"; // ...ja antaa sille luokan card-body
-
-                        var title = document.createElement("h5"); // Luo uuden h5...
-                        title.innerText = movieTitles[i].childNodes[0].nodeValue; // ...ja lisää sen tekstiksi elokuvan nimen...
-                        title.className = "card-title"; //...jolle antaa luokan card-title
-
-                        var movieInfo = document.createElement("div"); // Luo uuden divin
-                        var dateAndTime = movieStarts[i].childNodes[0].nodeValue; // Asettaa muuttujaan näytöksen pvm ja kellonajan
-                        movieInfo.innerText = movieTheatres[i].childNodes[0].nodeValue + "\n" // Asettaa teatterin tiedot divin tekstiksi
-                            + dateAndTime.substring(11, 16); // Poimii muuttujasta kellonaikatiedot jotka lisää divin tekstiksi
-                        movieInfo.className = "card-movieinfo"; // Antaa diville luokan card-movieinfo
-
-                        imgdiv.appendChild(images); // Liittää kuvan imgdiviin
-                        row.appendChild(imgdiv); // Liittää imgdivin riviin
-                        cardBody.appendChild(title); // Liittää elokuvan nimen cardBodyyn
-                        cardBody.appendChild(movieInfo); // Liittää elokuvan näytösajan cardBodyyn
-                        row.appendChild(cardBody); //Liittää cardbodyn riviin
-                        card.appendChild(row); // Liittää cardBodyn cardiin
-                        cardContainer.appendChild(card); // Vie cardin DOM:n cardContaineriin
-
+                        createMovieElement(movieTitles, movieTheatres, movieStarts, eventID, movieImages);
                     }
-                } else {  // Tekee muuten saman kuin yllä, mutta ottaa huomioon elokuvahakukentän arvon
-                    var movie = movieSearchTitle.value; 
+                } else {  // Tekee muuten saman kuin yllä, mutta ottaa huomioon elokuvahakukentän arvon    
+                    var movie = movieSearchTitle.value;
                     for (i = 0; i < movieTitles.length; i++) { // Käy läpi kaikki xml dokumentissa olleet elokuvat
-
                         if (movieTitles[i].childNodes[0].nodeValue.toUpperCase().includes(movie.toUpperCase())) {
-                            var cardContainer = document.getElementById("card-container"); // Asettaa card-contrainerin muuttujaan
-                            var row = document.createElement("div"); // Luo uuden divin...
-                            row.className = "row"; //...ja antaa sille luokan
-
-                            var imgdiv = document.createElement("div"); // Luo uuden divin...
-                            imgdiv.className = "col-xs-2"; //...ja antaa sille luokan
-
-                            var images = document.createElement("img"); // Luo kuvaelementin
-                            images.src = movieImages[i].childNodes[0].nodeValue; // Asettaa elementtiin kuvan xml tiedostosta
-                            images.alt = "Elokuvan mainosjuliste"; // Antaa kuvalle alt tekstin
-                            images.className = "img"; // Lisää kuvalle luokan
-
-                            var card = document.createElement("div"); // Luo uuden divin...
-                            card.className = "card shadow"; // ...ja lisää sille luokan card
-
-                            var cardBody = document.createElement("div"); // Luo uuden divin...
-                            cardBody.className = "card-body col-xs-10"; // ...ja antaa sille luokan card-body
-
-                            var title = document.createElement("h5"); // Luo uuden h5...
-                            title.innerText = movieTitles[i].childNodes[0].nodeValue; // ...ja lisää sen tekstiksi elokuvan nimen...
-                            title.className = "card-title"; //...jolle antaa luokan card-title
-
-                            var movieInfo = document.createElement("div"); // Luo uuden divin
-                            var dateAndTime = movieStarts[i].childNodes[0].nodeValue; // Asettaa muuttujaan näytöksen pvm ja kellonajan
-                            movieInfo.innerText = movieTheatres[i].childNodes[0].nodeValue + "\n" // Asettaa teatterin tiedot divin tekstiksi
-                                + dateAndTime.substring(11, 16); // Poimii muuttujasta kellonaikatiedot jotka lisää divin tekstiksi
-                            movieInfo.className = "card-movieinfo"; // Antaa diville luokan card-movieinfo
-
-
-                            imgdiv.appendChild(images); // Liittää kuvan imgdiviin
-                            row.appendChild(imgdiv); // Liittää imgdivin riviin
-                            cardBody.appendChild(title); // Liittää elokuvan nimen cardBodyyn
-                            cardBody.appendChild(movieInfo); // Liittää elokuvan näytösajan cardBodyyn
-                            row.appendChild(cardBody); //Liittää cardbodyn riviin
-                            card.appendChild(row); // Liittää cardBodyn cardiin
-                            cardContainer.appendChild(card); // Vie cardin DOM:n cardContaineriin
+                            createMovieElement(movieTitles, movieTheatres, movieStarts, eventID, movieImages);
                         }
                     }
                 }
@@ -220,4 +148,56 @@ function enterClick(e) { // Suorittaa funktion
     if (e.keyCode === 13) { // Jos näppäin on enter näppäin...
         searchMovies(); // ...suoritetaan elokuvahaku
     }
+}
+
+function createMovieElement(movieTitles, movieTheatres, movieStarts, eventID, movieImages) {
+
+    var cardContainer = document.getElementById("card-container"); // Asettaa card-contrainerin muuttujaan
+    var row = document.createElement("div"); // Luo uuden div elementin...
+    row.className = "row"; //...ja antaa sille luokan
+
+    var imgdiv = document.createElement("div"); // Luo uuden div elementin...
+    imgdiv.className = "col-xs-2"; //...ja antaa sille luokan
+
+    var images = document.createElement("img"); // Luo uuden kuva elementin
+    images.src = movieImages[i].childNodes[0].nodeValue; // Asettaa elemnttiin kuvan xml tiedostosta
+    images.alt = "Elokuvan mainosjuliste"; // Antaa kuvalle alt tekstin
+    images.className = "img"; // Antaa kuvalle luokan
+
+    var card = document.createElement("div"); // Luo uuden divin...
+    card.className = "card shadow"; // ...ja lisää sille luokan card
+
+    var cardBody = document.createElement("div"); // Luo uuden divin...
+    cardBody.className = "card-body col-xs-10"; // ...ja antaa sille luokan card-body
+
+    var title = document.createElement("h5"); // Luo uuden h5...
+    title.innerText = movieTitles[i].childNodes[0].nodeValue; // ...ja lisää sen tekstiksi elokuvan nimen...
+    title.className = "card-title"; //...jolle antaa luokan card-title
+
+    var movieInfo = document.createElement("div"); // Luo uuden divin
+    var dateAndTime = movieStarts[i].childNodes[0].nodeValue; // Asettaa muuttujaan näytöksen pvm ja kellonajan
+    var movieEventID = eventID[i].childNodes[0].nodeValue;
+    movieInfo.innerText = movieTheatres[i].childNodes[0].nodeValue + "\n" // Asettaa teatterin tiedot divin tekstiksi
+        + dateAndTime.substring(11, 16) + "\n\n"; // Poimii muuttujasta kellonaikatiedot jotka lisää divin tekstiksi
+
+    movieInfo.className = "card-movieinfo"; // Antaa diville luokan card-movieinfo
+
+    var varaa = document.createElement('a');
+    varaa.className = "varaa";
+    var link = document.createTextNode("Varaa");
+    varaa.appendChild(link);
+    varaa.title = "Varaa";
+    varaa.target = "_blank";
+    varaa.href = "https://www.finnkino.fi/event/" + movieEventID;
+
+
+    imgdiv.appendChild(images); // Liittää kuvan imgdiviin
+    row.appendChild(imgdiv); // Liittää imgdivin riviin
+    cardBody.appendChild(title); // Liittää elokuvan nimen cardBodyyn
+    cardBody.appendChild(movieInfo); // Liittää elokuvan näytösajan cardBodyyn
+    cardBody.appendChild(varaa);
+    row.appendChild(cardBody); //Liittää cardbodyn riviin
+    card.appendChild(row); // Liittää cardBodyn cardiin
+    cardContainer.appendChild(card); // Vie cardin DOM:n cardContaineriin
+
 }
