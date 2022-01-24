@@ -23,10 +23,21 @@ header {
     header {
         font-size: 36px;
     }
+    .card-title {
+        font-size: 17px;
+    }
+}
+@media only screen and (max-width: 500px) {
+    .card-title {
+        font-size: 16px;
+    }
 }
 @media only screen and (max-width: 490px) {
     header {
         font-size: 25px;
+    } 
+    .img {
+        display:none;
     }
 }
 a:hover {
@@ -109,6 +120,7 @@ footer {
     margin-top: 20px;
     margin-bottom: 20px;
 }
+
 .imgTonttu {
     max-height: 150px;
     max-width: 100px;
