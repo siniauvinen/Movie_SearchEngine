@@ -39,6 +39,9 @@ header {
     .img {
         display:none;
     }
+    .card-title {
+        font-size: 17px;
+    }
 }
 a:hover {
     text-decoration: none;
